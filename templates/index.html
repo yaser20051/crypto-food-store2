@@ -1,1 +1,12 @@
-templates/indenx.html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>طلب جديد</title></head>
+<body>
+<h1>أدخل تفاصيل الطلب</h1>
+<form action="/create-order" method="post">
+<label>المبلغ (USDT):</label><input type="text" name="amount" required><br>
+<label>محفظتك (TRC20):</label><input type="text" name="wallet" required><br>
+<button type="submit">إرسال</button>
+</form>
+</body>
+</html>

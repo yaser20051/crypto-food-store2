@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>متابعة الطلب</title></head>
+<body>
+<h2>طلب رقم: {{ order_id }}</h2>
+<p>المبلغ: {{ amount }} USDT</p>
+<p>محفظتك: {{ wallet }}</p>
+<p>الحالة: {{ '✅ تم الدفع' if paid else '❌ لم يتم الدفع بعد' }}</p>
+{% if tx_id %}<p>رقم المعاملة: {{ tx_id }}</p>{% endif %}
+</body>
+</html>
