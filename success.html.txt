@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تم الدفع بنجاح</title>
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+      background-color: #f8fff5;
+      text-align: center;
+      padding: 50px;
+    }
+    .success {
+      background-color: #e0ffe0;
+      border: 2px solid #4CAF50;
+      padding: 30px;
+      border-radius: 12px;
+      display: inline-block;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    .success h1 {
+      color: #4CAF50;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .success p {
+      font-size: 1.2em;
+      margin: 10px 0;
+      color: #333;
+    }
+    .success a {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 30px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    .success a:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="success">
+    <h1>✅ تم الدفع بنجاح!</h1>
+    <p>شكرًا لك على الطلب. تم تأكيد المعاملة الخاصة بك.</p>
+    <p>يمكنك الآن العودة إلى الصفحة الرئيسية أو تتبع طلبك.</p>
+    <a href="/">العودة للرئيسية</a>
+  </div>
+</body>
+</html>

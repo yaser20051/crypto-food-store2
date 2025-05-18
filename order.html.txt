@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>متجر العملات المشفرة - متابعة الطلب</title>
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+      background-color: #f0f8ff;
+      padding: 20px;
+      text-align: center;
+    }
+    .order-info {
+      background: #e7f4ff;
+      border: 2px solid #007acc;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 400px;
+      margin: 30px auto;
+      box-shadow: 0 0 12px rgba(0, 122, 204, 0.3);
+    }
+    #payment-timer {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-top: 15px;
+      color: #007acc;
+    }
+    .wallet-address {
+      font-family: monospace;
+      background: #dbeeff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      margin: 10px 0;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="order-info">
+    <h2>تابع طلبك</h2>
+    <p>رقم الطلب: <strong id="order-id"></strong></p>
+    <p>المبلغ المطلوب (USDT): <strong id="amount"></strong></p>
+    <p>ادفع إلى المحفظة التالية:</p>
+    <p class="wallet-address" id="store-wallet"></p>
+    <p id="payment-timer">الوقت المتبقي للدفع: 300 ثانية</p>
+  </div>
+
+  <script>
+    // البيانات هذه يجب أن يتم تعبئتها ديناميكياً من السيرفر
+    const orderId = "{{ order_id }}";        // مثال: "1684567890"
+    const amount = "{{ amount }}";            // مثال: "15.5"
+    const storeWallet = "{{ store_wallet }}";// مثال: "TPBv2PYACGBmz1XtPQBzYoNfGEZCnKuJVT"
+
+    // عرض البيانات في الصفحة
+    document.getElementById("order-id").textContent = orderId;
+    document.getElementById("amount").textContent = amount;
+    document.getElementById("store-wallet").textContent = storeWallet;
+
+    const checkInterval = 5000; // 5 ثواني
+    const paymentTimeout = 300; // 300 ثانية = 5 دقائق
+    let timeLeft = paymentTimeout;
+
+    function updateTimer() {
+      const timerElem = document.getElementById("payment-timer");
+      if (timerElem) {
+        timerElem.textContent = `الوقت المتبقي للدفع: ${timeLeft} ثانية`;
+      }
+    }
+
+    async function checkPayment() {
+      try {
+        const response = await fetch(`/check-payment/${orderId}`);
+        if (response.redirected) {
+          window.location.href = response.url;
+          return;
+        }
+
+        const data = await response.json();
+        if (data.paid) {
+          alert("✅ تم تأكيد الدفع!");
+          window.location.href = "/success";
+        } else {
+          if (timeLeft <= 0) {
+            window.location.href = "/fail";
+          } else {
+            timeLeft -= 5;
+            updateTimer();
+            setTimeout(checkPayment, checkInterval);
+          }
+        }
+      } catch (error) {
+        console.error("خطأ في التحقق من الدفع:", error);
+        setTimeout(checkPayment, checkInterval);
+      }
+    }
+
+    updateTimer();
+    setTimeout(checkPayment, checkInterval);
+  </script>
+</body>
+</html>
